@@ -4,7 +4,7 @@
   <br />
     <a href="https://github.com/marketplace/actions/action-accessibility"><img src="https://img.shields.io/badge/ACTION-ACCESSIBILITY-396baf.svg?style=for-the-badge&labelColor=f8eae3" alt="action accessibility" /></a>
     <a href="https://github.com/GeopJr/pixelfed-js/blob/main/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg?style=for-the-badge&labelColor=f8eae3" alt="COC" /></a>
-    <a href="https://github.com/GeopJr/pixelfed-js/blob/main/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-000000.svg?style=for-the-badge&labelColor=f8eae3" alt="MIT" /></a>
+    <a href="https://github.com/GeopJr/pixelfed-js/blob/main/LICENSE"><img src="https://img.shields.io/badge/LICENSE-AGPL--3.0-000000.svg?style=for-the-badge&labelColor=f8eae3" alt="AGPL-3.0" /></a>
 </p>
 
 You can find docs generated with JSDoc on the repo's listed website.
