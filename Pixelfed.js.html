@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Pixelfed.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Pixelfed.html">Pixelfed</a><ul class='methods'><li data-type='method'><a href="Pixelfed.html#accountBlockById">accountBlockById</a></li><li data-type='method'><a href="Pixelfed.html#accountBlocks">accountBlocks</a></li><li data-type='method'><a href="Pixelfed.html#accountById">accountById</a></li><li data-type='method'><a href="Pixelfed.html#accountFollowersById">accountFollowersById</a></li><li data-type='method'><a href="Pixelfed.html#accountFollowingById">accountFollowingById</a></li><li data-type='method'><a href="Pixelfed.html#accountFollowRequests">accountFollowRequests</a></li><li data-type='method'><a href="Pixelfed.html#accountLikes">accountLikes</a></li><li data-type='method'><a href="Pixelfed.html#accountMuteById">accountMuteById</a></li><li data-type='method'><a href="Pixelfed.html#accountMutes">accountMutes</a></li><li data-type='method'><a href="Pixelfed.html#accountNotifications">accountNotifications</a></li><li data-type='method'><a href="Pixelfed.html#accountSearch">accountSearch</a></li><li data-type='method'><a href="Pixelfed.html#accountStatusesById">accountStatusesById</a></li><li data-type='method'><a href="Pixelfed.html#accountUnblockById">accountUnblockById</a></li><li data-type='method'><a href="Pixelfed.html#accountUnmuteById">accountUnmuteById</a></li><li data-type='method'><a href="Pixelfed.html#followAccountById">followAccountById</a></li><li data-type='method'><a href="Pixelfed.html#homeTimeline">homeTimeline</a></li><li data-type='method'><a href="Pixelfed.html#instance">instance</a></li><li data-type='method'><a href="Pixelfed.html#mediaUpload">mediaUpload</a></li><li data-type='method'><a href="Pixelfed.html#nodeinfo">nodeinfo</a></li><li data-type='method'><a href="Pixelfed.html#publicTimeline">publicTimeline</a></li><li data-type='method'><a href="Pixelfed.html#statusById">statusById</a></li><li data-type='method'><a href="Pixelfed.html#statusCreate">statusCreate</a></li><li data-type='method'><a href="Pixelfed.html#statusFavouriteById">statusFavouriteById</a></li><li data-type='method'><a href="Pixelfed.html#statusLikedById">statusLikedById</a></li><li data-type='method'><a href="Pixelfed.html#statusRebloggedById">statusRebloggedById</a></li><li data-type='method'><a href="Pixelfed.html#statusUnfavouriteById">statusUnfavouriteById</a></li><li data-type='method'><a href="Pixelfed.html#unfollowAccountById">unfollowAccountById</a></li><li data-type='method'><a href="Pixelfed.html#user">user</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Pixelfed.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+const fetch = require('node-fetch')
+const FormData = require('form-data')
+const fs = require('fs')
+
+class Pixelfed {
+  /**
+   * Constructor for the api
+   * @param {string} domain The domain of the Pixelfed instance
+   * @param {string} [accessToken] Your access token
+   */
+  constructor (domain, accessToken = null) {
+    let tmp = domain.toLowerCase()
+    if (tmp.indexOf('http://') !== 0 &amp;&amp; tmp.indexOf('https://') !== 0) tmp = 'https://' + tmp
+    if (tmp.substr(-1) !== '/') tmp = tmp + '/'
+    this._domain = tmp
+    this._headers = { 'Content-Type': 'application/json' }
+    if (accessToken) this._headers.Authorization = `Bearer ${accessToken}`
+  }
+
+  /**
+   * Generate domain with the endpoint
+   * @private
+   * @param {string} endpoint The endpoint you want to call
+   * @returns {string}
+   */
+  _url (endpoint) {
+    return this._domain + endpoint
+  }
+
+  /**
+   * Do a GET request
+   * @private
+   * @param {string} url The url you want to do a GET request to
+   */
+  _get (url) {
+    return fetch(url)
+  }
+
+  /**
+   * Do a POST request
+   * @private
+   * @param {string} url The url you want to do a POST requrest to
+   * @param {Object} [body] The requst body
+   * @param {bool} [multiPart] Whether or not the body is multipart
+   */
+  _post (url, body = null, multiPart = false) {
+    const props = {
+      method: 'post',
+      headers: this._headers
+    }
+    if (body) props.body = multiPart ? body : JSON.stringify(body)
+    return fetch(url, props)
+  }
+
+  /**
+   * Confirm that the app's OAuth2 credentials work
+   * @returns {Object}
+   */
+  async user () {
+    const response = await this._get(this._url('api/v1/accounts/verify_credentials'))
+    return response.json()
+  }
+
+  /**
+   * Get an account
+   * @param {string} id The ID of the account you want to get
+   * @returns {Object}
+   */
+  async accountById (id) {
+    const response = await this._get(this._url(`api/v1/accounts/${id}`))
+    return response.json()
+  }
+
+  /**
+   * Get account followers
+   * @param {string} id The ID of the account you want to get the followers of
+   * @returns {Object}
+   */
+  async accountFollowersById (id) {
+    const response = await this._get(this._url(`api/v1/accounts/${id}/followers`))
+    return response.json()
+  }
+
+  /**
+   * Get account following
+   * @param {string} id The ID of the account you want to get the following of
+   * @returns {Object}
+   */
+  async accountFollowingById (id) {
+    const response = await this._get(this._url(`api/v1/accounts/${id}/following`))
+    return response.json()
+  }
+
+  /**
+   * Get account posts
+   * @param {string} id The ID of the account you want to get the posts of
+   * @returns {Object}
+   */
+  async accountStatusesById (id) {
+    const response = await this._get(this._url(`api/v1/accounts/${id}/statuses`))
+    return response.json()
+  }
+
+  /**
+   * Get node info
+   * @returns {Object}
+   */
+  async nodeinfo () {
+    const response = await this._get(this._url('api/nodeinfo/2.0.json'))
+    return response.json()
+  }
+
+  /**
+   * Search query
+   * @param {string} query The query you want to search
+   * @returns {Object}
+   */
+  async accountSearch (query) {
+    const response = await this._get(this._url(`api/v1/accounts/search?q=${query}`))
+    return response.json()
+  }
+
+  /**
+   * Get your blocks
+   * @returns {Object}
+   */
+  async accountBlocks () {
+    const response = await this._get(this._url('api/v1/blocks'))
+    return response.json()
+  }
+
+  /**
+   * Get your favourites
+   * @returns {Object}
+   */
+  async accountLikes () {
+    const response = await this._get(this._url('api/v1/favourites'))
+    return response.json()
+  }
+
+  /**
+   * Get your follow requests
+   * @returns {Object}
+   */
+  async accountFollowRequests () {
+    const response = await this._get(this._url('api/v1/follow_requests'))
+    return response.json()
+  }
+
+  /**
+   * Get the info about the instance
+   * @returns {Object}
+   */
+  async instance () {
+    const response = await this._get(this._url('api/v1/instance'))
+    return response.json()
+  }
+
+  /**
+   * Get your mutes
+   * @returns {Object}
+   */
+  async accountMutes () {
+    const response = await this._get(this._url('api/v1/mutes'))
+    return response.json()
+  }
+
+  /**
+   * Get your notifications
+   * @returns {Object}
+   */
+  async accountNotifications () {
+    const response = await this._get(this._url('api/v1/notifications'))
+    return response.json()
+  }
+
+  /**
+   * Get your timeline
+   * @returns {Object}
+   */
+  async homeTimeline () {
+    const response = await this._get(this._url('api/v1/timelines/home'))
+    return response.json()
+  }
+
+  /**
+   * Get the public timeline
+   * @returns {Object}
+   */
+  async publicTimeline () {
+    const response = await this._get(this._url('api/v1/timelines/public'))
+    return response.json()
+  }
+
+  /**
+   * Get a status
+   * @param {string} id The ID of the status you want to get
+   * @returns {Object}
+   */
+  async statusById (id) {
+    const response = await this._get(this._url(`api/v1/statuses/${id}`))
+    return response.json()
+  }
+
+  /**
+   * Get who reblogged a status
+   * @param {string} id The ID of the status you want to get the rebloggers of
+   * @returns {Object}
+   */
+  async statusRebloggedById (id) {
+    const response = await this._get(this._url(`api/v1/statuses/${id}/reblogged_by`))
+    return response.json()
+  }
+
+  /**
+   * Get who favoureted a status
+   * @param {string} id The ID of the status you want to get the favourites of
+   * @returns {Object}
+   */
+  async statusLikedById (id) {
+    const response = await this._get(this._url(`api/v1/statuses/${id}/favourited_by`))
+    return response.json()
+  }
+
+  /**
+   * Follow an account
+   * @param {string} id The ID of the account you want to follow
+   * @returns {Object}
+   */
+  async followAccountById (id) {
+    const response = await this._post(this._url(`api/v1/accounts/${id}/follow`))
+    return response.json()
+  }
+
+  /**
+   * Unfollow an account
+   * @param {string} id The ID of the account you want to unfollow
+   * @returns {Object}
+   */
+  async unfollowAccountById (id) {
+    const response = await this._post(this._url(`api/v1/accounts/${id}/unfollow`))
+    return response.json()
+  }
+
+  /**
+   * Block an account
+   * @param {string} id The ID of the account you want to block
+   * @returns {Object}
+   */
+  async accountBlockById (id) {
+    const response = await this._post(this._url(`api/v1/accounts/${id}/block`))
+    return response.json()
+  }
+
+  /**
+   * Unblock an account
+   * @param {string} id The ID of the account you want to unblock
+   * @returns {Object}
+   */
+  async accountUnblockById (id) {
+    const response = await this._post(this._url(`api/v1/accounts/${id}/unblock`))
+    return response.json()
+  }
+
+  /**
+   * Favourite a status
+   * @param {string} id The ID of the status you want to favourite
+   * @returns {Object}
+   */
+  async statusFavouriteById (id) {
+    const response = await this._post(this._url(`api/v1/statuses/${id}/favourite`))
+    return response.json()
+  }
+
+  /**
+   * Unfavourite a status
+   * @param {string} id The ID of the status you want to unfavourite
+   * @returns {Object}
+   */
+  async statusUnfavouriteById (id) {
+    const response = await this._post(this._url(`api/v1/statuses/${id}/unfavourite`))
+    return response.json()
+  }
+
+  /**
+   * Upload a status
+   * @param {string} file The location of the file you want to upload
+   * @returns {Object}
+   */
+  async mediaUpload (file) {
+    const body = new FormData()
+    const content = fs.readFileSync(file, { encoding: 'utf8' })
+    body.append('name', file)
+    body.append('contents', content)
+    body.append('filename', 'tmp.jpg')
+    const response = await this._post(this._url('api/v1/media'), body, true)
+    return response.json()
+  }
+
+  /**
+   * Mute an account
+   * @param {string} id The ID of the account you want to mute
+   * @returns {Object}
+   */
+  async accountMuteById (id) {
+    const response = await this._post(this._url(`api/v1/accounts/${id}/unmute`))
+    return response.json()
+  }
+
+  /**
+   * Unmute an account
+   * @param {string} id The ID of the account you want to unmute
+   * @returns {Object}
+   */
+  async accountUnmuteById (id) {
+    const response = await this._post(this._url(`api/v1/accounts/${id}/unmute`))
+    return response.json()
+  }
+
+  /**
+   *
+   * @param {Array&lt;number>} mediaIds An array of media ids
+   * @param {string} [caption] The caption
+   * @param {bool} [sensitive] Whether or not it's sensitive
+   * @param {string} [scope] Must be private, unlisted or public
+   * @param {number} [inReplyToId] The ID it replies to
+   */
+  async statusCreate (mediaIds, caption = null, sensitive = false, scope = 'public', inReplyToId = null) {
+    if (!mediaIds.some(isNaN) &amp;&amp; mediaIds.length !== 0) throw new Error('Invalid media_ids. Must be an array of integers.')
+    if (!['private', 'unlisted', 'public'].includes(scope)) throw new Error('Invalid scope. Must be private, unlisted or public.')
+    const props = {
+      media_ids: mediaIds,
+      status: caption,
+      in_reply_to_id: inReplyToId,
+      sensitive: sensitive,
+      visibility: scope
+    }
+    const response = await this._post(this._url('api/v1/statuses'), props)
+    return response.json()
+  }
+}
+
+module.exports = Pixelfed
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Tue Jan 05 2021 18:37:54 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
