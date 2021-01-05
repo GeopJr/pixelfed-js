@@ -1,6 +1,6 @@
 {
   "name": "pixelfed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A js wrapper for the Pixelfed API following the PHP one",
   "main": "index.js",
   "scripts": {
