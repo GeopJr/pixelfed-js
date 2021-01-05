@@ -1,0 +1,38 @@
+{
+  "name": "pixelfed",
+  "version": "1.0.0",
+  "description": "A js wrapper for the Pixelfed API following the PHP one",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard && prettier-standard . --check",
+    "lint:fix": "standard --fix && prettier-standard . --format"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeopJr/pixelfed-js.git"
+  },
+  "keywords": [
+    "pixelfed",
+    "decentralized",
+    "instagram"
+  ],
+  "author": "GeopJr",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/GeopJr/pixelfed-js/issues"
+  },
+  "homepage": "https://github.com/GeopJr/pixelfed-js#readme",
+  "dependencies": {
+    "form-data": "^3.0.0",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "jsdoc": "^3.6.6",
+    "prettier-standard": "^16.4.1",
+    "standard": "^16.0.3"
+  }
+}
