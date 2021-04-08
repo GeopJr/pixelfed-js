@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "standard && prettier-standard . --check",
-    "lint:fix": "standard --fix && prettier-standard . --format"
+    "lint:fix": "standard --fix && prettier-standard . --format",
+    "test": "node test/nodeinfo.js"
   },
   "standard": {
     "parser": "babel-eslint"
