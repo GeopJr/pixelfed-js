@@ -28,7 +28,7 @@
   "homepage": "https://github.com/GeopJr/pixelfed-js#readme",
   "dependencies": {
     "form-data": "^4.0.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
