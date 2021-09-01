@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "standard && prettier-standard . --check",
-    "lint:fix": "standard --fix && prettier-standard . --format",
-    "test": "node test/nodeinfo.js"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "nyc --reporter=text --all mocha"
   },
   "standard": {
     "parser": "babel-eslint"
