@@ -1,7 +1,3 @@
-'use strict'
-const Pixelfed = require('./src/Pixelfed.js')
+import Pixelfed from './src/Pixelfed.js'
 
-module.exports = {
-  default: Pixelfed,
-  Pixelfed
-}
+export default Pixelfed

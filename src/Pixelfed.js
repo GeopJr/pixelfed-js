@@ -1,9 +1,8 @@
-'use strict'
-const fetch = require('node-fetch')
-const FormData = require('form-data')
-const fs = require('fs')
+import fetch from 'node-fetch'
+import { FormData } from 'formdata-polyfill/esm.min.js'
+import { readFileSync } from 'fs'
 
-class Pixelfed {
+export default class Pixelfed {
   /**
    * Constructor for the api
    * @param {string} domain The domain of the Pixelfed instance
@@ -11,7 +10,9 @@ class Pixelfed {
    */
   constructor (domain, accessToken = null) {
     let tmp = domain.toLowerCase()
-    if (tmp.indexOf('http://') !== 0 && tmp.indexOf('https://') !== 0) tmp = 'https://' + tmp
+    if (tmp.indexOf('http://') !== 0 && tmp.indexOf('https://') !== 0) {
+      tmp = 'https://' + tmp
+    }
     if (tmp.substr(-1) !== '/') tmp = tmp + '/'
     this._domain = tmp
     this._headers = { 'Content-Type': 'application/json' }
@@ -34,7 +35,7 @@ class Pixelfed {
    * @param {string} url The url you want to do a GET request to
    */
   _get (url) {
-    return fetch(url)
+    return fetch(url, { method: 'get', headers: this._headers })
   }
 
   /**
@@ -58,7 +59,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async user () {
-    const response = await this._get(this._url('api/v1/accounts/verify_credentials'))
+    const response = await this._get(
+      this._url('api/v1/accounts/verify_credentials')
+    )
     return response.json()
   }
 
@@ -78,7 +81,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountFollowersById (id) {
-    const response = await this._get(this._url(`api/v1/accounts/${id}/followers`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/${id}/followers`)
+    )
     return response.json()
   }
 
@@ -88,7 +93,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountFollowingById (id) {
-    const response = await this._get(this._url(`api/v1/accounts/${id}/following`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/${id}/following`)
+    )
     return response.json()
   }
 
@@ -98,7 +105,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountStatusesById (id) {
-    const response = await this._get(this._url(`api/v1/accounts/${id}/statuses`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/${id}/statuses`)
+    )
     return response.json()
   }
 
@@ -117,7 +126,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountSearch (query) {
-    const response = await this._get(this._url(`api/v1/accounts/search?q=${query}`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/search?q=${query}`)
+    )
     return response.json()
   }
 
@@ -209,7 +220,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusRebloggedById (id) {
-    const response = await this._get(this._url(`api/v1/statuses/${id}/reblogged_by`))
+    const response = await this._get(
+      this._url(`api/v1/statuses/${id}/reblogged_by`)
+    )
     return response.json()
   }
 
@@ -219,7 +232,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusLikedById (id) {
-    const response = await this._get(this._url(`api/v1/statuses/${id}/favourited_by`))
+    const response = await this._get(
+      this._url(`api/v1/statuses/${id}/favourited_by`)
+    )
     return response.json()
   }
 
@@ -229,7 +244,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async followAccountById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/follow`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/follow`)
+    )
     return response.json()
   }
 
@@ -239,7 +256,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async unfollowAccountById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unfollow`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unfollow`)
+    )
     return response.json()
   }
 
@@ -259,7 +278,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountUnblockById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unblock`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unblock`)
+    )
     return response.json()
   }
 
@@ -269,7 +290,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusFavouriteById (id) {
-    const response = await this._post(this._url(`api/v1/statuses/${id}/favourite`))
+    const response = await this._post(
+      this._url(`api/v1/statuses/${id}/favourite`)
+    )
     return response.json()
   }
 
@@ -279,7 +302,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusUnfavouriteById (id) {
-    const response = await this._post(this._url(`api/v1/statuses/${id}/unfavourite`))
+    const response = await this._post(
+      this._url(`api/v1/statuses/${id}/unfavourite`)
+    )
     return response.json()
   }
 
@@ -290,7 +315,7 @@ class Pixelfed {
    */
   async mediaUpload (file) {
     const body = new FormData()
-    const content = fs.readFileSync(file, { encoding: 'utf8' })
+    const content = readFileSync(file, { encoding: 'utf8' })
     body.append('name', file)
     body.append('contents', content)
     body.append('filename', 'tmp.jpg')
@@ -304,7 +329,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountMuteById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unmute`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unmute`)
+    )
     return response.json()
   }
 
@@ -314,7 +341,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountUnmuteById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unmute`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unmute`)
+    )
     return response.json()
   }
 
@@ -326,9 +355,19 @@ class Pixelfed {
    * @param {string} [scope] Must be private, unlisted or public
    * @param {number} [inReplyToId] The ID it replies to
    */
-  async statusCreate (mediaIds, caption = null, sensitive = false, scope = 'public', inReplyToId = null) {
-    if (!mediaIds.some(isNaN) && mediaIds.length !== 0) throw new Error('Invalid media_ids. Must be an array of integers.')
-    if (!['private', 'unlisted', 'public'].includes(scope)) throw new Error('Invalid scope. Must be private, unlisted or public.')
+  async statusCreate (
+    mediaIds,
+    caption = null,
+    sensitive = false,
+    scope = 'public',
+    inReplyToId = null
+  ) {
+    if (!mediaIds.some(isNaN) && mediaIds.length !== 0) {
+      throw new Error('Invalid media_ids. Must be an array of integers.')
+    }
+    if (!['private', 'unlisted', 'public'].includes(scope)) {
+      throw new Error('Invalid scope. Must be private, unlisted or public.')
+    }
     const props = {
       media_ids: mediaIds,
       status: caption,
@@ -340,5 +379,3 @@ class Pixelfed {
     return response.json()
   }
 }
-
-module.exports = Pixelfed
