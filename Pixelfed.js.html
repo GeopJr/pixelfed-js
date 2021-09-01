@@ -27,7 +27,7 @@
 
 <nav >
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Pixelfed.html">Pixelfed</a><ul class='methods'><li data-type='method'><a href="Pixelfed.html#accountBlockById">accountBlockById</a></li><li data-type='method'><a href="Pixelfed.html#accountBlocks">accountBlocks</a></li><li data-type='method'><a href="Pixelfed.html#accountById">accountById</a></li><li data-type='method'><a href="Pixelfed.html#accountFollowersById">accountFollowersById</a></li><li data-type='method'><a href="Pixelfed.html#accountFollowingById">accountFollowingById</a></li><li data-type='method'><a href="Pixelfed.html#accountFollowRequests">accountFollowRequests</a></li><li data-type='method'><a href="Pixelfed.html#accountLikes">accountLikes</a></li><li data-type='method'><a href="Pixelfed.html#accountMuteById">accountMuteById</a></li><li data-type='method'><a href="Pixelfed.html#accountMutes">accountMutes</a></li><li data-type='method'><a href="Pixelfed.html#accountNotifications">accountNotifications</a></li><li data-type='method'><a href="Pixelfed.html#accountSearch">accountSearch</a></li><li data-type='method'><a href="Pixelfed.html#accountStatusesById">accountStatusesById</a></li><li data-type='method'><a href="Pixelfed.html#accountUnblockById">accountUnblockById</a></li><li data-type='method'><a href="Pixelfed.html#accountUnmuteById">accountUnmuteById</a></li><li data-type='method'><a href="Pixelfed.html#followAccountById">followAccountById</a></li><li data-type='method'><a href="Pixelfed.html#homeTimeline">homeTimeline</a></li><li data-type='method'><a href="Pixelfed.html#instance">instance</a></li><li data-type='method'><a href="Pixelfed.html#mediaUpload">mediaUpload</a></li><li data-type='method'><a href="Pixelfed.html#nodeinfo">nodeinfo</a></li><li data-type='method'><a href="Pixelfed.html#publicTimeline">publicTimeline</a></li><li data-type='method'><a href="Pixelfed.html#statusById">statusById</a></li><li data-type='method'><a href="Pixelfed.html#statusCreate">statusCreate</a></li><li data-type='method'><a href="Pixelfed.html#statusFavouriteById">statusFavouriteById</a></li><li data-type='method'><a href="Pixelfed.html#statusLikedById">statusLikedById</a></li><li data-type='method'><a href="Pixelfed.html#statusRebloggedById">statusRebloggedById</a></li><li data-type='method'><a href="Pixelfed.html#statusUnfavouriteById">statusUnfavouriteById</a></li><li data-type='method'><a href="Pixelfed.html#unfollowAccountById">unfollowAccountById</a></li><li data-type='method'><a href="Pixelfed.html#user">user</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.exports_module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#accountBlockById">accountBlockById</a></li><li><a href="global.html#accountBlocks">accountBlocks</a></li><li><a href="global.html#accountById">accountById</a></li><li><a href="global.html#accountFollowersById">accountFollowersById</a></li><li><a href="global.html#accountFollowingById">accountFollowingById</a></li><li><a href="global.html#accountFollowRequests">accountFollowRequests</a></li><li><a href="global.html#accountLikes">accountLikes</a></li><li><a href="global.html#accountMuteById">accountMuteById</a></li><li><a href="global.html#accountMutes">accountMutes</a></li><li><a href="global.html#accountNotifications">accountNotifications</a></li><li><a href="global.html#accountSearch">accountSearch</a></li><li><a href="global.html#accountStatusesById">accountStatusesById</a></li><li><a href="global.html#accountUnblockById">accountUnblockById</a></li><li><a href="global.html#accountUnmuteById">accountUnmuteById</a></li><li><a href="global.html#followAccountById">followAccountById</a></li><li><a href="global.html#homeTimeline">homeTimeline</a></li><li><a href="global.html#instance">instance</a></li><li><a href="global.html#mediaUpload">mediaUpload</a></li><li><a href="global.html#nodeinfo">nodeinfo</a></li><li><a href="global.html#publicTimeline">publicTimeline</a></li><li><a href="global.html#statusById">statusById</a></li><li><a href="global.html#statusCreate">statusCreate</a></li><li><a href="global.html#statusFavouriteById">statusFavouriteById</a></li><li><a href="global.html#statusLikedById">statusLikedById</a></li><li><a href="global.html#statusRebloggedById">statusRebloggedById</a></li><li><a href="global.html#statusUnfavouriteById">statusUnfavouriteById</a></li><li><a href="global.html#unfollowAccountById">unfollowAccountById</a></li><li><a href="global.html#user">user</a></li></ul>
 </nav>
 
 <div id="main">
@@ -42,12 +42,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>'use strict'
-const fetch = require('node-fetch')
-const FormData = require('form-data')
-const fs = require('fs')
+            <pre class="prettyprint source linenums"><code>import fetch from 'node-fetch'
+import { FormData } from 'formdata-polyfill/esm.min.js'
+import { readFileSync } from 'fs'
 
-class Pixelfed {
+export default class Pixelfed {
   /**
    * Constructor for the api
    * @param {string} domain The domain of the Pixelfed instance
@@ -55,7 +54,9 @@ class Pixelfed {
    */
   constructor (domain, accessToken = null) {
     let tmp = domain.toLowerCase()
-    if (tmp.indexOf('http://') !== 0 &amp;&amp; tmp.indexOf('https://') !== 0) tmp = 'https://' + tmp
+    if (tmp.indexOf('http://') !== 0 &amp;&amp; tmp.indexOf('https://') !== 0) {
+      tmp = 'https://' + tmp
+    }
     if (tmp.substr(-1) !== '/') tmp = tmp + '/'
     this._domain = tmp
     this._headers = { 'Content-Type': 'application/json' }
@@ -78,7 +79,7 @@ class Pixelfed {
    * @param {string} url The url you want to do a GET request to
    */
   _get (url) {
-    return fetch(url)
+    return fetch(url, { method: 'get', headers: this._headers })
   }
 
   /**
@@ -102,7 +103,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async user () {
-    const response = await this._get(this._url('api/v1/accounts/verify_credentials'))
+    const response = await this._get(
+      this._url('api/v1/accounts/verify_credentials')
+    )
     return response.json()
   }
 
@@ -122,7 +125,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountFollowersById (id) {
-    const response = await this._get(this._url(`api/v1/accounts/${id}/followers`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/${id}/followers`)
+    )
     return response.json()
   }
 
@@ -132,7 +137,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountFollowingById (id) {
-    const response = await this._get(this._url(`api/v1/accounts/${id}/following`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/${id}/following`)
+    )
     return response.json()
   }
 
@@ -142,7 +149,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountStatusesById (id) {
-    const response = await this._get(this._url(`api/v1/accounts/${id}/statuses`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/${id}/statuses`)
+    )
     return response.json()
   }
 
@@ -161,7 +170,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountSearch (query) {
-    const response = await this._get(this._url(`api/v1/accounts/search?q=${query}`))
+    const response = await this._get(
+      this._url(`api/v1/accounts/search?q=${query}`)
+    )
     return response.json()
   }
 
@@ -253,7 +264,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusRebloggedById (id) {
-    const response = await this._get(this._url(`api/v1/statuses/${id}/reblogged_by`))
+    const response = await this._get(
+      this._url(`api/v1/statuses/${id}/reblogged_by`)
+    )
     return response.json()
   }
 
@@ -263,7 +276,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusLikedById (id) {
-    const response = await this._get(this._url(`api/v1/statuses/${id}/favourited_by`))
+    const response = await this._get(
+      this._url(`api/v1/statuses/${id}/favourited_by`)
+    )
     return response.json()
   }
 
@@ -273,7 +288,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async followAccountById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/follow`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/follow`)
+    )
     return response.json()
   }
 
@@ -283,7 +300,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async unfollowAccountById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unfollow`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unfollow`)
+    )
     return response.json()
   }
 
@@ -303,7 +322,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountUnblockById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unblock`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unblock`)
+    )
     return response.json()
   }
 
@@ -313,7 +334,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusFavouriteById (id) {
-    const response = await this._post(this._url(`api/v1/statuses/${id}/favourite`))
+    const response = await this._post(
+      this._url(`api/v1/statuses/${id}/favourite`)
+    )
     return response.json()
   }
 
@@ -323,7 +346,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async statusUnfavouriteById (id) {
-    const response = await this._post(this._url(`api/v1/statuses/${id}/unfavourite`))
+    const response = await this._post(
+      this._url(`api/v1/statuses/${id}/unfavourite`)
+    )
     return response.json()
   }
 
@@ -334,7 +359,7 @@ class Pixelfed {
    */
   async mediaUpload (file) {
     const body = new FormData()
-    const content = fs.readFileSync(file, { encoding: 'utf8' })
+    const content = readFileSync(file, { encoding: 'utf8' })
     body.append('name', file)
     body.append('contents', content)
     body.append('filename', 'tmp.jpg')
@@ -348,7 +373,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountMuteById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unmute`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unmute`)
+    )
     return response.json()
   }
 
@@ -358,7 +385,9 @@ class Pixelfed {
    * @returns {Object}
    */
   async accountUnmuteById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/unmute`))
+    const response = await this._post(
+      this._url(`api/v1/accounts/${id}/unmute`)
+    )
     return response.json()
   }
 
@@ -370,9 +399,19 @@ class Pixelfed {
    * @param {string} [scope] Must be private, unlisted or public
    * @param {number} [inReplyToId] The ID it replies to
    */
-  async statusCreate (mediaIds, caption = null, sensitive = false, scope = 'public', inReplyToId = null) {
-    if (!mediaIds.some(isNaN) &amp;&amp; mediaIds.length !== 0) throw new Error('Invalid media_ids. Must be an array of integers.')
-    if (!['private', 'unlisted', 'public'].includes(scope)) throw new Error('Invalid scope. Must be private, unlisted or public.')
+  async statusCreate (
+    mediaIds,
+    caption = null,
+    sensitive = false,
+    scope = 'public',
+    inReplyToId = null
+  ) {
+    if (!mediaIds.some(isNaN) &amp;&amp; mediaIds.length !== 0) {
+      throw new Error('Invalid media_ids. Must be an array of integers.')
+    }
+    if (!['private', 'unlisted', 'public'].includes(scope)) {
+      throw new Error('Invalid scope. Must be private, unlisted or public.')
+    }
     const props = {
       media_ids: mediaIds,
       status: caption,
@@ -384,8 +423,6 @@ class Pixelfed {
     return response.json()
   }
 }
-
-module.exports = Pixelfed
 </code></pre>
         </article>
     </section>
@@ -400,7 +437,7 @@ module.exports = Pixelfed
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Sep 01 2021 00:25:41 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Sep 01 2021 12:18:39 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
