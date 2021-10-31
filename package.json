@@ -32,8 +32,8 @@
     "node-fetch": "3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.15.8",
-    "@babel/eslint-parser": "7.15.8",
+    "@babel/core": "7.16.0",
+    "@babel/eslint-parser": "7.16.0",
     "chai": "4.3.4",
     "eslint": "8.1.0",
     "eslint-config-standard": "16.0.3",
