@@ -12,12 +12,12 @@ specifiers:
   formdata-polyfill: ^4.0.6
   jsdoc: 3.6.7
   mocha: 9.1.3
-  node-fetch: 3.0.0
+  node-fetch: 3.1.0
   nyc: 15.1.0
 
 dependencies:
   formdata-polyfill: 4.0.6
-  node-fetch: 3.0.0
+  node-fetch: 3.1.0
 
 devDependencies:
   '@babel/core': 7.16.0
@@ -634,9 +634,9 @@ packages:
       which: 2.0.2
     dev: true
 
-  /data-uri-to-buffer/3.0.1:
-    resolution: {integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==}
-    engines: {node: '>= 6'}
+  /data-uri-to-buffer/4.0.0:
+    resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
+    engines: {node: '>= 12'}
     dev: false
 
   /debug/2.6.9:
@@ -1123,6 +1123,13 @@ packages:
       cross-spawn: 7.0.3
       signal-exit: 3.0.3
     dev: true
+
+  /formdata-polyfill/4.0.10:
+    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
+    engines: {node: '>=12.20.0'}
+    dependencies:
+      fetch-blob: 3.1.2
+    dev: false
 
   /formdata-polyfill/4.0.6:
     resolution: {integrity: sha512-oJeqWjhE6r9I4TiolW6sBYkLzupq3QZLNAYcR+b1tzh/9Uktuf4qRgJY8qqLo6an0uKckdHPpfsUYHqVf/tprA==}
@@ -1780,12 +1787,13 @@ packages:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
     dev: true
 
-  /node-fetch/3.0.0:
-    resolution: {integrity: sha512-bKMI+C7/T/SPU1lKnbQbwxptpCrG9ashG+VkytmXCPZyuM9jB6VU+hY0oi4lC8LxTtAeWdckNCTa3nrGsAdA3Q==}
+  /node-fetch/3.1.0:
+    resolution: {integrity: sha512-QU0WbIfMUjd5+MUzQOYhenAazakV7Irh1SGkWCsRzBwvm4fAhzEUaHMJ6QLP7gWT6WO9/oH2zhKMMGMuIrDyKw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
-      data-uri-to-buffer: 3.0.1
+      data-uri-to-buffer: 4.0.0
       fetch-blob: 3.1.2
+      formdata-polyfill: 4.0.10
     dev: false
 
   /node-preload/0.2.1:
