@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@babel/core': 7.16.0
-  '@babel/eslint-parser': 7.16.0
+  '@babel/eslint-parser': 7.16.3
   chai: 4.3.4
   eslint: 8.2.0
   eslint-config-standard: 16.0.3
@@ -21,7 +21,7 @@ dependencies:
 
 devDependencies:
   '@babel/core': 7.16.0
-  '@babel/eslint-parser': 7.16.0_@babel+core@7.16.0+eslint@8.2.0
+  '@babel/eslint-parser': 7.16.3_@babel+core@7.16.0+eslint@8.2.0
   chai: 4.3.4
   eslint: 8.2.0
   eslint-config-standard: 16.0.3_543fd3a4884e17a1ee08034f7f644d40
@@ -69,8 +69,8 @@ packages:
       - supports-color
     dev: true
 
-  /@babel/eslint-parser/7.16.0_@babel+core@7.16.0+eslint@8.2.0:
-    resolution: {integrity: sha512-c+AsYOHjI+FgCa+ifLd8sDXp4U4mjkfFgL9NdQWhuA731kAUJs0WdJIXET4A14EJAR9Jv9FFF/MzPWJfV9Oirw==}
+  /@babel/eslint-parser/7.16.3_@babel+core@7.16.0+eslint@8.2.0:
+    resolution: {integrity: sha512-iB4ElZT0jAt7PKVaeVulOECdGe6UnmA/O0P9jlF5g5GBOwDVbna8AXhHRu4s27xQf6OkveyA8iTDv1jHdDejgQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
     peerDependencies:
       '@babel/core': '>=7.11.0'
