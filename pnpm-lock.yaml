@@ -6,7 +6,7 @@ specifiers:
   chai: 4.3.4
   eslint: 8.2.0
   eslint-config-standard: 16.0.3
-  eslint-plugin-import: 2.25.2
+  eslint-plugin-import: 2.25.3
   eslint-plugin-node: 11.1.0
   eslint-plugin-promise: 5.1.1
   formdata-polyfill: ^4.0.6
@@ -24,8 +24,8 @@ devDependencies:
   '@babel/eslint-parser': 7.16.0_@babel+core@7.16.0+eslint@8.2.0
   chai: 4.3.4
   eslint: 8.2.0
-  eslint-config-standard: 16.0.3_543fd3a4884e17a1ee08034f7f644d40
-  eslint-plugin-import: 2.25.2_eslint@8.2.0
+  eslint-config-standard: 16.0.3_71e62a6d150c2a9eabb469e86106dd38
+  eslint-plugin-import: 2.25.3_eslint@8.2.0
   eslint-plugin-node: 11.1.0_eslint@8.2.0
   eslint-plugin-promise: 5.1.1_eslint@8.2.0
   jsdoc: 3.6.7
@@ -808,7 +808,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-standard/16.0.3_543fd3a4884e17a1ee08034f7f644d40:
+  /eslint-config-standard/16.0.3_71e62a6d150c2a9eabb469e86106dd38:
     resolution: {integrity: sha512-x4fmJL5hGqNJKGHSjnLdgA6U6h1YW/G2dW9fA+cyVur4SK6lyue8+UgNKWlZtUDTXvgKDD/Oa3GQjmB5kjtVvg==}
     peerDependencies:
       eslint: ^7.12.1
@@ -817,7 +817,7 @@ packages:
       eslint-plugin-promise: ^4.2.1 || ^5.0.0
     dependencies:
       eslint: 8.2.0
-      eslint-plugin-import: 2.25.2_eslint@8.2.0
+      eslint-plugin-import: 2.25.3_eslint@8.2.0
       eslint-plugin-node: 11.1.0_eslint@8.2.0
       eslint-plugin-promise: 5.1.1_eslint@8.2.0
     dev: true
@@ -829,8 +829,8 @@ packages:
       resolve: 1.20.0
     dev: true
 
-  /eslint-module-utils/2.7.0:
-    resolution: {integrity: sha512-hqSE88MmHl3ru9SYvDyGrlo0JwROlf9fiEMplEV7j/EAuq9iSlIlyCFbBT6pdULQBSnBYtYKiMLps+hKkyP7Gg==}
+  /eslint-module-utils/2.7.1:
+    resolution: {integrity: sha512-fjoetBXQZq2tSTWZ9yWVl2KuFrTZZH3V+9iD1V1RfpDgxzJR+mPd/KZmMiA8gbPqdBzpNiEHOuT7IYEWxrH0zQ==}
     engines: {node: '>=4'}
     dependencies:
       debug: 3.2.7
@@ -849,8 +849,8 @@ packages:
       regexpp: 3.1.0
     dev: true
 
-  /eslint-plugin-import/2.25.2_eslint@8.2.0:
-    resolution: {integrity: sha512-qCwQr9TYfoBHOFcVGKY9C9unq05uOxxdklmBXLVvcwo68y5Hta6/GzCZEMx2zQiu0woKNEER0LE7ZgaOfBU14g==}
+  /eslint-plugin-import/2.25.3_eslint@8.2.0:
+    resolution: {integrity: sha512-RzAVbby+72IB3iOEL8clzPLzL3wpDrlwjsTBAQXgyp5SeTqqY+0bFubwuo+y/HLhNZcXV4XqTBO4LGsfyHIDXg==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
@@ -861,9 +861,9 @@ packages:
       doctrine: 2.1.0
       eslint: 8.2.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.0
+      eslint-module-utils: 2.7.1
       has: 1.0.3
-      is-core-module: 2.7.0
+      is-core-module: 2.8.0
       is-glob: 4.0.3
       minimatch: 3.0.4
       object.values: 1.1.5
@@ -1366,8 +1366,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /is-core-module/2.7.0:
-    resolution: {integrity: sha512-ByY+tjCciCr+9nLryBYcSD50EOGWt95c7tIsKTG1J2ixKKXPvF7Ej3AVd+UfDydAJom3biBGDBALaO79ktwgEQ==}
+  /is-core-module/2.8.0:
+    resolution: {integrity: sha512-vd15qHsaqrRL7dtH6QNuy0ndJmRDrS9HAM1CAiSifNUFv4x1a0CCVsj18hJ1mShxIG6T2i1sO78MkP56r0nYRw==}
     dependencies:
       has: 1.0.3
     dev: true
@@ -2097,7 +2097,7 @@ packages:
   /resolve/1.20.0:
     resolution: {integrity: sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==}
     dependencies:
-      is-core-module: 2.7.0
+      is-core-module: 2.8.0
       path-parse: 1.0.7
     dev: true
 
