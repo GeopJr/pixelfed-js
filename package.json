@@ -29,7 +29,7 @@
   "homepage": "https://github.com/GeopJr/pixelfed-js#readme",
   "dependencies": {
     "formdata-polyfill": "^4.0.6",
-    "node-fetch": "3.1.1"
+    "node-fetch": "3.2.0"
   },
   "devDependencies": {
     "@babel/core": "7.16.10",
