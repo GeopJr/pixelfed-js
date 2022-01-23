@@ -10,7 +10,7 @@ specifiers:
   eslint-plugin-node: 11.1.0
   eslint-plugin-promise: 6.0.0
   formdata-polyfill: ^4.0.6
-  jsdoc: 3.6.8
+  jsdoc: 3.6.9
   mocha: 9.1.4
   node-fetch: 3.2.0
   nyc: 15.1.0
@@ -28,7 +28,7 @@ devDependencies:
   eslint-plugin-import: 2.25.4_eslint@8.7.0
   eslint-plugin-node: 11.1.0_eslint@8.7.0
   eslint-plugin-promise: 6.0.0_eslint@8.7.0
-  jsdoc: 3.6.8
+  jsdoc: 3.6.9
   mocha: 9.1.4
   nyc: 15.1.0
 
@@ -1552,8 +1552,8 @@ packages:
       xmlcreate: 2.0.4
     dev: true
 
-  /jsdoc/3.6.8:
-    resolution: {integrity: sha512-KNkIwDNzGE46gTJcHKjSPyruIK399Da9T8/WhoQu9HrMcMp6/70tEYcHBFfVhH1LlGYitn+T3/PBt5IzmWIr2A==}
+  /jsdoc/3.6.9:
+    resolution: {integrity: sha512-bVrM2DT2iLmv6jd2IdTRk67tC4iaSDUicD+47y+cNCYlE8dccd4xZnlANG4M+OmGyV389bABSTKKfoPCOofbKw==}
     engines: {node: '>=8.15.0'}
     hasBin: true
     requiresBuild: true
