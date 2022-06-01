@@ -12,12 +12,12 @@ specifiers:
   formdata-polyfill: ^4.0.6
   jsdoc: 3.6.10
   mocha: 9.2.2
-  node-fetch: 3.2.4
+  node-fetch: 3.2.5
   nyc: 15.1.0
 
 dependencies:
   formdata-polyfill: 4.0.6
-  node-fetch: 3.2.4
+  node-fetch: 3.2.5
 
 devDependencies:
   '@babel/core': 7.18.2
@@ -1880,8 +1880,8 @@ packages:
     engines: {node: '>=10.5.0'}
     dev: false
 
-  /node-fetch/3.2.4:
-    resolution: {integrity: sha512-WvYJRN7mMyOLurFR2YpysQGuwYrJN+qrrpHjJDuKMcSPdfFccRUla/kng2mz6HWSBxJcqPbvatS6Gb4RhOzCJw==}
+  /node-fetch/3.2.5:
+    resolution: {integrity: sha512-u7zCHdJp8JXBwF09mMfo2CL6kp37TslDl1KP3hRGTlCInBtag+UO3LGVy+NF0VzvnL3PVMpA2hXh1EtECFnyhQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       data-uri-to-buffer: 4.0.0
