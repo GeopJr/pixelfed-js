@@ -1,17 +1,12 @@
 {
   "name": "pixelfed",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A js wrapper for the Pixelfed API following the PHP one",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "test": "nyc --reporter=text --all mocha"
-  },
-  "standard": {
-    "parser": "babel-eslint"
-  },
+  "files": [
+    "src/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GeopJr/pixelfed-js.git"
@@ -19,29 +14,20 @@
   "keywords": [
     "pixelfed",
     "decentralized",
-    "instagram"
+    "instagram",
+    "fediverse",
+    "activitypub"
   ],
   "author": "GeopJr",
-  "license": "Unlicense",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/GeopJr/pixelfed-js/issues"
   },
   "homepage": "https://github.com/GeopJr/pixelfed-js#readme",
   "dependencies": {
-    "formdata-polyfill": "^4.0.6",
-    "node-fetch": "3.2.9"
+    "node-fetch-native": "^0.1.4"
   },
   "devDependencies": {
-    "@babel/core": "7.18.9",
-    "@babel/eslint-parser": "7.18.9",
-    "chai": "4.3.6",
-    "eslint": "8.20.0",
-    "eslint-config-standard": "17.0.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "6.0.0",
-    "jsdoc": "3.6.11",
-    "mocha": "10.0.0",
-    "nyc": "15.1.0"
+    "jsdoc": "3.6.11"
   }
 }

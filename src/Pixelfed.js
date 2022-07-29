@@ -1,6 +1,4 @@
-import fetch from 'node-fetch'
-import { FormData } from 'formdata-polyfill/esm.min.js'
-import { readFileSync } from 'fs'
+import { fetch, File, FormData } from 'node-fetch-native'
 
 export default class Pixelfed {
   /**
@@ -8,12 +6,12 @@ export default class Pixelfed {
    * @param {string} domain The domain of the Pixelfed instance
    * @param {string} [accessToken] Your access token
    */
-  constructor (domain, accessToken = null) {
+  constructor(domain, accessToken = null) {
     let tmp = domain.toLowerCase()
     if (tmp.indexOf('http://') !== 0 && tmp.indexOf('https://') !== 0) {
       tmp = 'https://' + tmp
     }
-    if (tmp.substr(-1) !== '/') tmp = tmp + '/'
+    if (tmp.slice(-1) !== '/') tmp = tmp + '/'
     this._domain = tmp
     this._headers = { 'Content-Type': 'application/json' }
     if (accessToken) this._headers.Authorization = `Bearer ${accessToken}`
@@ -25,7 +23,7 @@ export default class Pixelfed {
    * @param {string} endpoint The endpoint you want to call
    * @returns {string}
    */
-  _url (endpoint) {
+  _url(endpoint = "") {
     return this._domain + endpoint
   }
 
@@ -34,7 +32,7 @@ export default class Pixelfed {
    * @private
    * @param {string} url The url you want to do a GET request to
    */
-  _get (url) {
+  _get(url) {
     return fetch(url, { method: 'get', headers: this._headers })
   }
 
@@ -42,309 +40,314 @@ export default class Pixelfed {
    * Do a POST request
    * @private
    * @param {string} url The url you want to do a POST requrest to
-   * @param {Object} [body] The requst body
+   * @param {Object | FormData} [body] The requst body
    * @param {bool} [multiPart] Whether or not the body is multipart
    */
-  _post (url, body = null, multiPart = false) {
+  _post(url, body = null, multiPart = false) {
     const props = {
       method: 'post',
       headers: this._headers
     }
-    if (body) props.body = multiPart ? body : JSON.stringify(body)
+    if (body) {
+      if (multiPart) {
+        delete props.headers['Content-Type'] // Fetch sets boundary
+        props.body = body
+      } else {
+        props.body = JSON.stringify(body)
+      }
+    }
     return fetch(url, props)
   }
 
   /**
    * Confirm that the app's OAuth2 credentials work
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async user () {
-    const response = await this._get(
+  user() {
+    const response = this._get(
       this._url('api/v1/accounts/verify_credentials')
     )
-    return response.json()
+    return response
   }
 
   /**
    * Get an account
    * @param {string} id The ID of the account you want to get
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountById (id) {
-    const response = await this._get(this._url(`api/v1/accounts/${id}`))
-    return response.json()
+  accountById(id) {
+    const response = this._get(this._url(`api/v1/accounts/${id}`))
+    return response
   }
 
   /**
    * Get account followers
    * @param {string} id The ID of the account you want to get the followers of
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountFollowersById (id) {
-    const response = await this._get(
+  accountFollowersById(id) {
+    const response = this._get(
       this._url(`api/v1/accounts/${id}/followers`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Get account following
    * @param {string} id The ID of the account you want to get the following of
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountFollowingById (id) {
-    const response = await this._get(
+  accountFollowingById(id) {
+    const response = this._get(
       this._url(`api/v1/accounts/${id}/following`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Get account posts
    * @param {string} id The ID of the account you want to get the posts of
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountStatusesById (id) {
-    const response = await this._get(
+  accountStatusesById(id) {
+    const response = this._get(
       this._url(`api/v1/accounts/${id}/statuses`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Get node info
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async nodeinfo () {
-    const response = await this._get(this._url('api/nodeinfo/2.0.json'))
-    return response.json()
+  nodeinfo() {
+    const response = this._get(this._url('api/nodeinfo/2.0.json'))
+    return response
   }
 
   /**
    * Search query
    * @param {string} query The query you want to search
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountSearch (query) {
-    const response = await this._get(
+  accountSearch(query) {
+    const response = this._get(
       this._url(`api/v1/accounts/search?q=${query}`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Get your blocks
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountBlocks () {
-    const response = await this._get(this._url('api/v1/blocks'))
-    return response.json()
+  accountBlocks() {
+    const response = this._get(this._url('api/v1/blocks'))
+    return response
   }
 
   /**
    * Get your favourites
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountLikes () {
-    const response = await this._get(this._url('api/v1/favourites'))
-    return response.json()
+  accountLikes() {
+    const response = this._get(this._url('api/v1/favourites'))
+    return response
   }
 
   /**
    * Get your follow requests
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountFollowRequests () {
-    const response = await this._get(this._url('api/v1/follow_requests'))
-    return response.json()
+  accountFollowRequests() {
+    const response = this._get(this._url('api/v1/follow_requests'))
+    return response
   }
 
   /**
    * Get the info about the instance
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async instance () {
-    const response = await this._get(this._url('api/v1/instance'))
-    return response.json()
+  instance() {
+    const response = this._get(this._url('api/v1/instance'))
+    return response
   }
 
   /**
    * Get your mutes
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountMutes () {
-    const response = await this._get(this._url('api/v1/mutes'))
-    return response.json()
+  accountMutes() {
+    const response = this._get(this._url('api/v1/mutes'))
+    return response
   }
 
   /**
    * Get your notifications
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountNotifications () {
-    const response = await this._get(this._url('api/v1/notifications'))
-    return response.json()
+  accountNotifications() {
+    const response = this._get(this._url('api/v1/notifications'))
+    return response
   }
 
   /**
    * Get your timeline
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async homeTimeline () {
-    const response = await this._get(this._url('api/v1/timelines/home'))
-    return response.json()
+  homeTimeline() {
+    const response = this._get(this._url('api/v1/timelines/home'))
+    return response
   }
 
   /**
    * Get the public timeline
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async publicTimeline () {
-    const response = await this._get(this._url('api/v1/timelines/public'))
-    return response.json()
+  publicTimeline() {
+    const response = this._get(this._url('api/v1/timelines/public'))
+    return response
   }
 
   /**
    * Get a status
    * @param {string} id The ID of the status you want to get
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async statusById (id) {
-    const response = await this._get(this._url(`api/v1/statuses/${id}`))
-    return response.json()
+  statusById(id) {
+    const response = this._get(this._url(`api/v1/statuses/${id}`))
+    return response
   }
 
   /**
    * Get who reblogged a status
    * @param {string} id The ID of the status you want to get the rebloggers of
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async statusRebloggedById (id) {
-    const response = await this._get(
+  statusRebloggedById(id) {
+    const response = this._get(
       this._url(`api/v1/statuses/${id}/reblogged_by`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Get who favoureted a status
    * @param {string} id The ID of the status you want to get the favourites of
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async statusLikedById (id) {
-    const response = await this._get(
+  statusLikedById(id) {
+    const response = this._get(
       this._url(`api/v1/statuses/${id}/favourited_by`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Follow an account
    * @param {string} id The ID of the account you want to follow
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async followAccountById (id) {
-    const response = await this._post(
+  followAccountById(id) {
+    const response = this._post(
       this._url(`api/v1/accounts/${id}/follow`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Unfollow an account
    * @param {string} id The ID of the account you want to unfollow
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async unfollowAccountById (id) {
-    const response = await this._post(
+  unfollowAccountById(id) {
+    const response = this._post(
       this._url(`api/v1/accounts/${id}/unfollow`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Block an account
    * @param {string} id The ID of the account you want to block
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountBlockById (id) {
-    const response = await this._post(this._url(`api/v1/accounts/${id}/block`))
-    return response.json()
+  accountBlockById(id) {
+    const response = this._post(this._url(`api/v1/accounts/${id}/block`))
+    return response
   }
 
   /**
    * Unblock an account
    * @param {string} id The ID of the account you want to unblock
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountUnblockById (id) {
-    const response = await this._post(
+  accountUnblockById(id) {
+    const response = this._post(
       this._url(`api/v1/accounts/${id}/unblock`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Favourite a status
    * @param {string} id The ID of the status you want to favourite
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async statusFavouriteById (id) {
-    const response = await this._post(
+  statusFavouriteById(id) {
+    const response = this._post(
       this._url(`api/v1/statuses/${id}/favourite`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Unfavourite a status
    * @param {string} id The ID of the status you want to unfavourite
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async statusUnfavouriteById (id) {
-    const response = await this._post(
+  statusUnfavouriteById(id) {
+    const response = this._post(
       this._url(`api/v1/statuses/${id}/unfavourite`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Upload a status
    * @param {string} file The location of the file you want to upload
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async mediaUpload (file) {
+  mediaUpload(content) {
     const body = new FormData()
-    const content = readFileSync(file, { encoding: 'utf8' })
-    body.append('name', file)
-    body.append('contents', content)
-    body.append('filename', 'tmp.jpg')
-    const response = await this._post(this._url('api/v1/media'), body, true)
-    return response.json()
+    body.append('file', new File([content], "tmp.jpg"), "tmp.jpg")
+
+    const response = this._post(this._url('api/v1/media'), body, true)
+    return response
   }
 
   /**
    * Mute an account
    * @param {string} id The ID of the account you want to mute
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountMuteById (id) {
-    const response = await this._post(
+  accountMuteById(id) {
+    const response = this._post(
       this._url(`api/v1/accounts/${id}/unmute`)
     )
-    return response.json()
+    return response
   }
 
   /**
    * Unmute an account
    * @param {string} id The ID of the account you want to unmute
-   * @returns {Object}
+   * @returns {Promise<object>} The response object
    */
-  async accountUnmuteById (id) {
-    const response = await this._post(
+  accountUnmuteById(id) {
+    const response = this._post(
       this._url(`api/v1/accounts/${id}/unmute`)
     )
-    return response.json()
+    return response
   }
 
   /**
@@ -354,15 +357,16 @@ export default class Pixelfed {
    * @param {bool} [sensitive] Whether or not it's sensitive
    * @param {string} [scope] Must be private, unlisted or public
    * @param {number} [inReplyToId] The ID it replies to
+   * @returns {Promise<object>} The response object
    */
-  async statusCreate (
+  statusCreate(
     mediaIds,
     caption = null,
     sensitive = false,
     scope = 'public',
     inReplyToId = null
   ) {
-    if (!mediaIds.some(isNaN) && mediaIds.length !== 0) {
+    if (mediaIds.some(isNaN) || mediaIds.length === 0) {
       throw new Error('Invalid media_ids. Must be an array of integers.')
     }
     if (!['private', 'unlisted', 'public'].includes(scope)) {
@@ -375,7 +379,7 @@ export default class Pixelfed {
       sensitive: sensitive,
       visibility: scope
     }
-    const response = await this._post(this._url('api/v1/statuses'), props)
-    return response.json()
+    const response = this._post(this._url('api/v1/statuses'), props)
+    return response
   }
 }
