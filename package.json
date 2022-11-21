@@ -28,6 +28,6 @@
     "node-fetch-native": "^0.1.4"
   },
   "devDependencies": {
-    "jsdoc": "3.6.11"
+    "jsdoc": "4.0.0"
   }
 }
