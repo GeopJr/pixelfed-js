@@ -1,14 +1,14 @@
 lockfileVersion: 5.4
 
 specifiers:
-  jsdoc: 3.6.11
+  jsdoc: 4.0.0
   node-fetch-native: ^0.1.4
 
 dependencies:
   node-fetch-native: 0.1.4
 
 devDependencies:
-  jsdoc: 3.6.11
+  jsdoc: 4.0.0
 
 packages:
 
@@ -31,6 +31,13 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.18.6
       to-fast-properties: 2.0.0
+    dev: true
+
+  /@jsdoc/salty/0.2.1:
+    resolution: {integrity: sha512-JXwylDNSHa549N9uceDYu8D4GMXwSo3H8CCPYEQqxhhHpxD28+lRl2b3bS/caaPj5w1YD3SWtrficJNTnUjGpg==}
+    engines: {node: '>=v12.0.0'}
+    dependencies:
+      lodash: 4.17.21
     dev: true
 
   /@types/linkify-it/3.0.2:
@@ -82,12 +89,13 @@ packages:
       xmlcreate: 2.0.4
     dev: true
 
-  /jsdoc/3.6.11:
-    resolution: {integrity: sha512-8UCU0TYeIYD9KeLzEcAu2q8N/mx9O3phAGl32nmHlE0LpaJL71mMkP4d+QE5zWfNt50qheHtOZ0qoxVrsX5TUg==}
+  /jsdoc/4.0.0:
+    resolution: {integrity: sha512-tzTgkklbWKrlaQL2+e3NNgLcZu3NaK2vsHRx7tyHQ+H5jcB9Gx0txSd2eJWlMC/xU1+7LQu4s58Ry0RkuaEQVg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
       '@babel/parser': 7.18.9
+      '@jsdoc/salty': 0.2.1
       '@types/markdown-it': 12.2.3
       bluebird: 3.7.2
       catharsis: 0.9.0
@@ -100,7 +108,6 @@ packages:
       mkdirp: 1.0.4
       requizzle: 0.2.3
       strip-json-comments: 3.1.1
-      taffydb: 2.6.2
       underscore: 1.13.4
     dev: true
 
@@ -170,10 +177,6 @@ packages:
   /strip-json-comments/3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
-    dev: true
-
-  /taffydb/2.6.2:
-    resolution: {integrity: sha512-y3JaeRSplks6NYQuCOj3ZFMO3j60rTwbuKCvZxsAraGYH2epusatvZ0baZYA01WsGqJBq/Dl6vOrMUJqyMj8kA==}
     dev: true
 
   /to-fast-properties/2.0.0:
