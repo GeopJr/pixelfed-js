@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/GeopJr/pixelfed-js#readme",
   "dependencies": {
-    "node-fetch-native": "^0.1.4"
+    "node-fetch-native": "^1.0.0"
   },
   "devDependencies": {
     "jsdoc": "4.0.0"
